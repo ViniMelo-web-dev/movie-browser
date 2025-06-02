@@ -1,2 +1,2 @@
-# movie-browser
+# Movie-browser
 Movie Browser Project
