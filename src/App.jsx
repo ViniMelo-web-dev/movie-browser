@@ -4,6 +4,9 @@ import Search from './components/Search';
 import Card from './components/Card';
 import { useDebounce } from 'react-use';
 import Spinner from './components/Spinner';
+import { getTrendingMovies } from './scripts/appwrite';
+import TrendingCard from './components/TrendingCard';
+import { updateSearchCount } from './scripts/appwrite';
 
 
 const API_BASE_URL = 'https://api.themoviedb.org/3';
@@ -22,6 +25,7 @@ function App() {
   const [errorMessage, setErrorMessage] = useState('');
   const [movieList, setMovieList] = useState([]);
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
+  const [trendingMovies, setTrendingMovies] = useState([]);
 
 
   useDebounce(() => setDebouncedSearchTerm(searchTerm), 500, [searchTerm])
@@ -47,7 +51,10 @@ function App() {
       }
 
       setMovieList(data.results || []);
-      console.log(movieList);
+      
+      if(query && data.results.length > 0){
+        await updateSearchCount(query, data.results[0]);
+      }
 
     } catch(error){
       setErrorMessage(error.message || 'Error fetching movies');
@@ -57,11 +64,22 @@ function App() {
     }
   }
 
+  const loadTrendingMovies = async () => {
+    try{
+      const movies = await getTrendingMovies();
+      setTrendingMovies(movies)
+    } catch(error){
+      console.log(error);
+    }
+  }
 
   useEffect(() => {
     fetchMovies(debouncedSearchTerm);
   }, [debouncedSearchTerm])
 
+  useEffect(() => {
+    loadTrendingMovies();
+  },[])
 
   return (
     <main>
@@ -74,12 +92,16 @@ function App() {
         </h1>
         <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm}></Search>
       </header>
+      {/* {trendingMovies.length > 0 &&(
       <section>
         <h2>Trending Movies</h2>
         <ul>
-          {}
+          {trendingMovies.map((movie, index) => {
+            <TrendingCard key={movie.id} index={index} moviePoster={movie.poster_path}></TrendingCard>
+          })}
         </ul>
       </section>
+      )} */}
       <section>
         <h2 className='my-10'>All Movies</h2>
         {isLoading ? (

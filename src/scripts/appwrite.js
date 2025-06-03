@@ -9,7 +9,7 @@ const APPWRITE_ENDPOINT = import.meta.env.VITE_APPWRITE_ENDPOINT;
 const client = new Client().setEndpoint(APPWRITE_ENDPOINT).setProject(PROJECT_ID);
 const database = new Databases(client);
 
-const updateSearchCount = async (searchTerm, movie) =>{
+export const updateSearchCount = async (searchTerm, movie) =>{
     try{
         const result = await database.listDocuments(DATABASE_ID, COLLECTION_ID,
             [Query.equal('searchTerm',searchTerm)]
@@ -22,7 +22,7 @@ const updateSearchCount = async (searchTerm, movie) =>{
         }
 
         else{
-            await database.createDocument(DATABASE_ID, COLLECTION_ID, ID.unique(){
+            await database.createDocument(DATABASE_ID, COLLECTION_ID, ID.unique(),{
                 searchTerm: searchTerm,
                 count: 1,
                 movie_id: movie.id,
@@ -35,13 +35,16 @@ const updateSearchCount = async (searchTerm, movie) =>{
     }
 }
 
-const getTrendingMovies = async () => {
-    try{
-        const result = await database.listDocuments(DATABASE_ID, COLLECTION_ID, 
-            [Query.limit(5),Query.orderDesc('count')]);
-            
+export const getTrendingMovies = async () => {
+    try {
+        const result = await database.listDocuments(DATABASE_ID, COLLECTION_ID, [
+            Query.limit(5),
+            Query.orderDesc('count')   
+        ]);
+        
         return result.documents;
     } catch(error){
         console.log(error);
     }
+
 }
