@@ -1,26 +1,34 @@
-🎥 Movie Database Website
+# 🎥 Movie Database Website
 
-This project is a movie database website that I developed based on a Figma design. The main goal is to allow users to search for thousands of movies using the TMDB API.
+This project is a **movie database website** that I developed based on a **Figma design**. The main goal is to allow users to search for thousands of movies using the [TMDB API](https://www.themoviedb.org/documentation/api).
 
-The project is built with React and Tailwind CSS for the frontend, and it uses Appwrite as the backend manager to handle authentication, database, and storage.
-🚀 Technologies Used
+The project is built with **React** and **Tailwind CSS** for the frontend, and it uses **Appwrite** as the backend manager to handle authentication, database, and storage.
 
-    React — Frontend library
+## 🚀 Technologies Used
 
-    Tailwind CSS — Utility-first CSS framework
+- **React** — Frontend library
+- **Tailwind CSS** — Utility-first CSS framework
+- **TMDB API** — Movie database API
+- **Appwrite** — Backend as a Service (BaaS)
 
-    TMDB API — Movie database API
+## 🔥 Features
 
-    Appwrite — Backend as a Service (BaaS)
+- 🔍 Search for movies by title
+- 🎬 View movie details (poster, description, ratings, etc.)
+- ❤️ Trending movies based on search frequency results
+- ☁️ Backend management with Appwrite (database, authentication, and storage)
 
-🔥 Features
+## 🛠️ How to Run
 
-    🔍 Search for movies by title
+1. Clone this repository:
 
-    🎬 View movie details (poster, description, ratings, etc.)
+''Bash
+git clone https://github.com/your-username/your-repository.git
 
-    ❤️ Favorite movies (optional feature)
+2. Install dependecies:
+''Bash
+npm install
 
-    🔐 User authentication (login and signup using Appwrite)
-
-    ☁️ Backend management with Appwrite (database, authentication, and storage)
+3. Start the development server
+''Bash
+npm run dev
