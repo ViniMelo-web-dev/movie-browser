@@ -1,0 +1,59 @@
+@import 'tailwindcss';
+
+*{
+  box-sizing: border-box;
+}
+
+  @theme {
+  --color-primary: #030014;
+
+  --color-light-100: #cecefb;
+  --color-light-200: #a8b5db;
+
+  --color-gray-100: #9ca4ab;
+
+  --color-dark-100: #0f0d23;
+
+  --font-dm-sans: DM Sans, sans-serif;
+
+  --breakpoint-xs: 480px;
+
+  --background-image-hero-pattern: url("/hero-bg.png");
+}
+
+@layer base{
+  body{
+    background: #030014;
+    @apply bg-hero-pattern bg-center bg-cover w-screen h-screen bg-no-repeat
+  }
+
+  main{
+    @apply min-h-screen w-full relative;
+  }
+
+  header{
+    @apply mt-5 w-full flex justify-center flex-col items-center
+  }
+
+  header img{
+    @apply w-full max-w-lg h-auto object-contain drop-shadow-md
+  }
+  
+  h2{
+    @apply text-white font-bold text-3xl text-start mt-10
+  }
+}
+
+@layer components{
+  .movie-card{
+    @apply bg-dark-100 p-5 rounded-2xl shadow-inner shadow-light-100/10 text-white;
+    
+    && span{
+      @apply mx-2 text-gray-100
+    }
+  }
+}
+
+@utility text-gradient{
+  @apply bg-linear-to-r from-[#D6C7FF] to-[#AB8BFF] text-transparent bg-clip-text;
+}
