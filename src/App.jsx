@@ -3,6 +3,8 @@ import './App.css'
 import Search from './components/Search';
 import Card from './components/Card';
 import { useDebounce } from 'react-use';
+import Spinner from './components/Spinner';
+
 
 const API_BASE_URL = 'https://api.themoviedb.org/3';
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
@@ -69,14 +71,26 @@ function App() {
         <img  src='hero-img.png' alt='hero-banner'></img>
         <h1 className='text-white max-w-3xl text-[3.9rem] font-bold relative -top-10'>
           Find <span className='text-gradient'>Movies</span> You'll Enjoy Without The Hassle
-        </h1>@apply bg-hero-pattern bg-center bg-cover
+        </h1>
         <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm}></Search>
       </header>
       <section>
+        <h2>Trending Movies</h2>
+        <ul>
+          {}
+        </ul>
+      </section>
+      <section>
         <h2 className='my-10'>All Movies</h2>
+        {isLoading ? (
+          <Spinner></Spinner>
+        ): errorMessage ? <p className='text-red-500'>{errorMessage}</p> : (
         <ul className='grid grid-cols-1 gap-5 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
           {movieList.map((movie) => <Card key={movie.id} movie={movie}></Card>)}
         </ul>
+        )
+        }
+
       </section>
     </main>
   )
