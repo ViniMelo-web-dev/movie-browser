@@ -21,14 +21,11 @@ The project is built with **React** and **Tailwind CSS** for the frontend, and i
 ## 🛠️ How to Run
 
 1. Clone this repository:
-
-''Bash
-git clone https://github.com/your-username/your-repository.git
-
-2. Install dependecies:
-''Bash
-npm install
-
-3. Start the development server
-''Bash
-npm run dev
+  ''Bash
+  git clone https://github.com/your-username/your-repository.git
+3. Install dependecies:
+  ''Bash
+  npm install
+4. Start the development server:
+  ''Bash
+  npm run dev
