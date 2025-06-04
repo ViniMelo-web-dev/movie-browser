@@ -26,6 +26,7 @@ function App() {
   const [movieList, setMovieList] = useState([]);
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
   const [trendingMovies, setTrendingMovies] = useState([]);
+  const [trendingLoading, setTrendingLoading] = useState(false);
 
 
   useDebounce(() => setDebouncedSearchTerm(searchTerm), 500, [searchTerm])
@@ -65,11 +66,14 @@ function App() {
   }
 
   const loadTrendingMovies = async () => {
+    setTrendingLoading(true);
     try{
       const movies = await getTrendingMovies();
-      setTrendingMovies(movies)
+      setTrendingMovies(movies);
     } catch(error){
       console.log(error);
+    } finally{
+      setTrendingLoading(false);
     }
   }
 
@@ -79,7 +83,7 @@ function App() {
 
   useEffect(() => {
     loadTrendingMovies();
-  },[])
+  }, [])
 
   return (
     <main>
@@ -92,18 +96,22 @@ function App() {
         </h1>
         <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm}></Search>
       </header>
-      {/* {trendingMovies.length > 0 &&(
+      {trendingMovies.length > 0 &&(
       <section>
         <h2>Trending Movies</h2>
-        <ul>
-          {trendingMovies.map((movie, index) => {
-            <TrendingCard key={movie.id} index={index} moviePoster={movie.poster_path}></TrendingCard>
-          })}
+        {trendingLoading ? (
+          <Spinner></Spinner>
+        ) : (
+        <ul className='flex'>
+          {trendingMovies.map((movie, index) => (
+            <TrendingCard key={movie.movie_id} index={index} moviePoster={movie.poster_url}></TrendingCard>
+          ))}
         </ul>
+        )}
       </section>
-      )} */}
+      )}
       <section>
-        <h2 className='my-10'>All Movies</h2>
+        <h2 className='my-10 mt-2'>All Movies</h2>
         {isLoading ? (
           <Spinner></Spinner>
         ): errorMessage ? <p className='text-red-500'>{errorMessage}</p> : (
