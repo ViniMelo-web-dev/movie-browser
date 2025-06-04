@@ -7,6 +7,7 @@ import Spinner from './components/Spinner';
 import { getTrendingMovies } from './scripts/appwrite';
 import TrendingCard from './components/TrendingCard';
 import { updateSearchCount } from './scripts/appwrite';
+import { previousPage, nextPage } from './scripts/page-controller';
 
 
 const API_BASE_URL = 'https://api.themoviedb.org/3';
@@ -27,6 +28,7 @@ function App() {
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
   const [trendingMovies, setTrendingMovies] = useState([]);
   const [trendingLoading, setTrendingLoading] = useState(false);
+  const [moviePage, setMoviePage] = useState(1);
 
 
   useDebounce(() => setDebouncedSearchTerm(searchTerm), 500, [searchTerm])
@@ -36,7 +38,7 @@ function App() {
     setErrorMessage('');
     try{
       const endpoint = query ? `${API_BASE_URL}/search/movie?query=${encodeURI(query)}` :
-       `${API_BASE_URL}/discover/movie?sort_by=popularity.desc`;
+       `${API_BASE_URL}/discover/movie?sort_by=popularity.desc&page=${moviePage}`;
        
       const response = await fetch(endpoint, API_OPTIONS);
 
@@ -46,12 +48,14 @@ function App() {
 
       const data = await response.json();
 
+
       if(data.Response === 'False'){
         setMovieList([]);
         throw new Error('Failed to fetch data');
       }
 
       setMovieList(data.results || []);
+      
       
       if(query && data.results.length > 0){
         await updateSearchCount(query, data.results[0]);
@@ -84,6 +88,10 @@ function App() {
   useEffect(() => {
     loadTrendingMovies();
   }, [])
+
+  useEffect(() => {
+    fetchMovies();
+  }, [moviePage])
 
   return (
     <main>
@@ -120,7 +128,20 @@ function App() {
         </ul>
         )
         }
-
+      </section>
+      <section className='mt-8'>
+        <div className='flex justify-between items-center'>
+          <div className='arrow-control' onClick={() => moviePage > 1 && setMoviePage(moviePage - 1)}>
+            <img src='arrow-icon.svg' alt='arrow-icon'></img>
+          </div>
+          <div>
+            <p className='text-gray-100'><span className='text-white font-bold'>{moviePage}</span>/50</p>
+          </div>
+          <div className='arrow-control' onClick={() => setMoviePage(moviePage + 1)}>
+            <img className='rotate-180' src='arrow-icon.svg' alt='arrow-icon'>
+            </img>
+          </div>
+        </div>
       </section>
     </main>
   )
