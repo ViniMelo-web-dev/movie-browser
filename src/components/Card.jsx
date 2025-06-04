@@ -1,8 +1,11 @@
 import React from 'react'
 
+
+
+
 const Card = ({movie: {title, vote_average, original_language, release_date, poster_path}}) => {
   return (
-    <div className='movie-card relative hovering-dark-bg'>
+    <div className='movie-card relative hovering-dark-bg' onClick={() => handleClick}>
       <img className='m-auto w-full rounded-lg'
         src={poster_path ?
           `https://image.tmdb.org/t/p/w500/${poster_path}` : '/no-Poster.png'}
