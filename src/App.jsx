@@ -7,7 +7,7 @@ import Spinner from './components/Spinner';
 import { getTrendingMovies } from './scripts/appwrite';
 import TrendingCard from './components/TrendingCard';
 import { updateSearchCount } from './scripts/appwrite';
-import { previousPage, nextPage } from './scripts/page-controller';
+
 
 
 const API_BASE_URL = 'https://api.themoviedb.org/3';
@@ -110,7 +110,7 @@ function App() {
         {trendingLoading ? (
           <Spinner></Spinner>
         ) : (
-        <ul className='flex'>
+        <ul className='flex max-sm:flex-wrap'>
           {trendingMovies.map((movie, index) => (
             <TrendingCard key={movie.movie_id} index={index} moviePoster={movie.poster_url}></TrendingCard>
           ))}
@@ -137,7 +137,7 @@ function App() {
           <div>
             <p className='text-gray-100'><span className='text-white font-bold'>{moviePage}</span>/50</p>
           </div>
-          <div className='arrow-control' onClick={() => setMoviePage(moviePage + 1)}>
+          <div className='arrow-control' onClick={() => moviePage < 50 && setMoviePage(moviePage + 1)}>
             <img className='rotate-180' src='arrow-icon.svg' alt='arrow-icon'>
             </img>
           </div>
