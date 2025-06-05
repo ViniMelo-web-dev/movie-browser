@@ -56,7 +56,7 @@
   }
   
   .arrow-control{
-    @apply bg-dark-100 p-3 rounded-lg hovering-dark-bg
+    @apply bg-dark-100 p-3 rounded-lg hovering-dark-bg max-w-[5rem]
   }
 }
 

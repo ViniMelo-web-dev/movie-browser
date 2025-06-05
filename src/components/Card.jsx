@@ -2,15 +2,14 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom';
 
 
+
 const Card = ({movie: {title, vote_average, original_language, release_date, poster_path, id}}) => {
   const navigate = useNavigate();
-
   const openNewWindow = () => {
     navigate(`/moviepage/${id}`);
-  }
-
+}
   return (
-    <div className='movie-card relative hovering-dark-bg' onClick={() => openNewWindow()}>
+    <div className='movie-card relative hovering-dark-bg' onClick={() => openNewWindow(id)}>
       <img className='m-auto w-full rounded-lg'
         src={poster_path ?
           `https://image.tmdb.org/t/p/w500/${poster_path}` : '/no-Poster.png'}
