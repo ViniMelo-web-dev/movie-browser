@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import '../styles/shared.css'
+import '../styles/shared.css';
 import Search from './Search';
 import Card from './Card';
 import { useDebounce } from 'react-use';

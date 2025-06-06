@@ -58,6 +58,23 @@
   .arrow-control{
     @apply bg-dark-100 p-3 rounded-lg hovering-dark-bg max-w-[5rem]
   }
+
+  .movie-row-content{
+    @apply flex gap-15 items-center;
+
+    && p{
+      @apply text-light-200 w-10;
+    }
+
+    && span{
+      @apply text-[#D6C7FF];
+    }
+
+    && ul{
+      @apply flex gap-3;
+    }
+
+  }
 }
 
 @utility text-gradient{

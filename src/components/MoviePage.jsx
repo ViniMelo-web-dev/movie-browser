@@ -4,8 +4,8 @@ import '../styles/movie-page.css'
 import { useNavigate } from 'react-router-dom'
 import Spinner from './Spinner'
 
-const BASE_URL = 'https://api.themoviedb.org/3/movie/'
-const API_KEY = import.meta.env.VITE_TMDB_API_KEY
+const BASE_URL = 'https://api.themoviedb.org/3/movie/';
+const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 const API_OPTIONS = {
   method: 'GET',
   headers: {
@@ -15,58 +15,59 @@ const API_OPTIONS = {
 }
 
 const MoviePage = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const backToMain = () => {
-    navigate('/')
+    navigate('/');
   }
 
-  const [movie, setMovie] = useState({})
-  const [movieTrailer, setMovieTrailer] = useState({})
-  const [isLoading, setIsLoading] = useState(false)
-  const [trailerLoading, setTrailerLoading] = useState(false)
-  const { id } = useParams()
+  const [movie, setMovie] = useState({});
+  const [movieTrailer, setMovieTrailer] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const [trailerLoading, setTrailerLoading] = useState(false);
+  const { id } = useParams();
 
   const fetchMovie = async () => {
     setIsLoading(true)
     try {
-      const endpoint = `${BASE_URL}${id}`
-      const response = await fetch(endpoint, API_OPTIONS)
+      const endpoint = `${BASE_URL}${id}`;
+      const response = await fetch(endpoint, API_OPTIONS);
 
       if (!response.ok) {
-        throw new Error('Failed to fetch specific movie')
+        throw new Error('Failed to fetch specific movie');
       }
 
-      const data = await response.json()
+      const data = await response.json();
+
 
       if (data.response === 'False') {
-        setMovie('')
-        throw new Error('Error fetching data')
+        setMovie('');
+        throw new Error('Error fetching data');
       }
 
-      setMovie(data || '')
+      setMovie(data || '');
     } catch (error) {
       console.log(error)
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
   }
 
   const fetchMovieVideo = async () => {
     setTrailerLoading(true)
     try {
-      const endpoint = `${BASE_URL}${id}/videos`
-      const response = await fetch(endpoint, API_OPTIONS)
+      const endpoint = `${BASE_URL}${id}/videos`;
+      const response = await fetch(endpoint, API_OPTIONS);
 
       if (!response.ok) {
-        throw new Error('Failed to fetch trailer')
+        throw new Error('Failed to fetch trailer');
       }
 
-      const data = await response.json()
+      const data = await response.json();
 
       if (data.response === 'False') {
-        setMovieTrailer('')
-        throw new Error('Failed to fetch trailer info')
+        setMovieTrailer('');
+        throw new Error('Failed to fetch trailer info');
       }
 
       const trailer = data.results.find(
@@ -75,9 +76,9 @@ const MoviePage = () => {
 
       setMovieTrailer(trailer || data.results[0] || '')
     } catch (error) {
-      console.log(error)
+      console.log(error);
     } finally {
-      setTrailerLoading(false)
+      setTrailerLoading(false);
     }
   }
 
@@ -86,6 +87,11 @@ const MoviePage = () => {
     fetchMovieVideo()
   }, [])
 
+  useEffect(() => {
+    console.log(movie);
+  }, [movie])
+
+
   const {
     title, release_date, vote_average, vote_count,
     poster_path, genres, revenue, tagline, production_companies,
@@ -93,8 +99,14 @@ const MoviePage = () => {
     production_countries, overview, runtime
   } = movie
 
-  const hours = Math.floor(runtime / 60)
-  const minutes = runtime % 60
+  const hours = Math.floor(runtime / 60);
+  const minutes = runtime % 60;
+
+  const formatedDate = new Date(release_date).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
 
   return (
     <div className='bg-dark-100 bright-shadow rounded-[8px] p-7 max-w-full'>
@@ -157,6 +169,41 @@ const MoviePage = () => {
               />
             )}
           </div>
+        </div>
+      </section>
+      <section className='flex flex-col gap-3'>
+        <div className='movie-row-content mt-5 items-center'>
+          <p>Genres: </p>
+          <ul>
+            {genres ? genres.map((genre) => (
+              <div key={genre.id} className='bg-[#221F3D] rounded-[4px] p-1 px-5'>
+                <span className='text-white font-medium'>{genre.name}</span>
+              </div>
+            )) : 'N/A'}
+          </ul>
+        </div>
+        <div className='movie-row-content'>
+          <p>Overview: </p>
+          <span className='text-white text-[1rem] leading-[175%] text-justify'>{overview}</span>
+        </div>   
+        <div className='movie-row-content'>
+          <p>Release date: </p>
+          <span>{formatedDate ? formatedDate : 'N/A'}</span>
+        </div>
+        <div className='movie-row-content'>
+          <p>Countries: </p>
+          <ul>
+            {production_countries ? production_countries.map((country) => (
+              <span key={movie.id}>{country.name}</span>
+            )) : 'N/A'}
+          </ul>
+        </div>
+        <div className='movie-row-content'>
+          <p>Status: </p>
+          <span>{status ? status : 'N/A'}</span>
+        </div>
+        <div>
+
         </div>
       </section>
     </div>
