@@ -87,11 +87,6 @@ const MoviePage = () => {
     fetchMovieVideo()
   }, [])
 
-  useEffect(() => {
-    console.log(movie);
-  }, [movie])
-
-
   const {
     title, release_date, vote_average, vote_count,
     poster_path, genres, revenue, tagline, production_companies,
