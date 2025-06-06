@@ -60,10 +60,10 @@
   }
 
   .movie-row-content{
-    @apply flex gap-15 items-center;
+    @apply flex gap-15 items-center overflow-hidden;
 
     && p{
-      @apply text-light-200 w-10;
+      @apply text-light-200 w-10 ;
     }
 
     && span{
@@ -71,7 +71,7 @@
     }
 
     && ul{
-      @apply flex gap-3;
+      @apply flex gap-2;
     }
 
   }
@@ -94,4 +94,5 @@
 @utility bright-shadow{
   @apply drop-shadow-[0_0_100px_#AB8BFF4D] shadow-[inset_0_12px_32px_#CECEFB05] border border-[#ffffff0a] 
 }
+
 

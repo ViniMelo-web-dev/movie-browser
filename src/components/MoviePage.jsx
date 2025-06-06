@@ -99,6 +99,7 @@ const MoviePage = () => {
     production_countries, overview, runtime
   } = movie
 
+
   const hours = Math.floor(runtime / 60);
   const minutes = runtime % 60;
 
@@ -107,6 +108,11 @@ const MoviePage = () => {
     month: 'long',
     day: 'numeric'
   });
+
+  const revenueFormated = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD'
+  }).format(revenue);
 
   return (
     <div className='bg-dark-100 bright-shadow rounded-[8px] p-7 max-w-full'>
@@ -171,9 +177,9 @@ const MoviePage = () => {
           </div>
         </div>
       </section>
-      <section className='flex flex-col gap-3'>
+      <section className='flex flex-col gap-4'>
         <div className='movie-row-content mt-5 items-center'>
-          <p>Genres: </p>
+          <p>Genres </p>
           <ul>
             {genres ? genres.map((genre) => (
               <div key={genre.id} className='bg-[#221F3D] rounded-[4px] p-1 px-5'>
@@ -183,27 +189,67 @@ const MoviePage = () => {
           </ul>
         </div>
         <div className='movie-row-content'>
-          <p>Overview: </p>
+          <p>Overview </p>
           <span className='text-white text-[1rem] leading-[175%] text-justify'>{overview}</span>
         </div>   
         <div className='movie-row-content'>
-          <p>Release date: </p>
+          <p>Release date </p>
           <span>{formatedDate ? formatedDate : 'N/A'}</span>
         </div>
         <div className='movie-row-content'>
-          <p>Countries: </p>
+          <p>Countries </p>
           <ul>
             {production_countries ? production_countries.map((country) => (
-              <span key={movie.id}>{country.name}</span>
+              <div key={country.name}>
+                <span className='mr-2'>{country.name}</span>
+              {production_countries?.length > 2 && (
+                  <span>•</span>
+              )}
+              </div>
             )) : 'N/A'}
           </ul>
         </div>
         <div className='movie-row-content'>
-          <p>Status: </p>
+          <p>Status </p>
           <span>{status ? status : 'N/A'}</span>
         </div>
-        <div>
-
+        <div className='movie-row-content'>
+          <p>Language </p>
+          <ul>
+             {spoken_languages ? spoken_languages.map((country) => (
+              <div className='flex items-center' key={country.name}>
+                <span className='mr-2'>{country.name}</span>
+              {spoken_languages?.length > 1 && (
+                  <span>•</span>
+              )}
+              </div>
+            )) : 'N/A'}
+          </ul>
+        </div>
+        <div className='movie-row-content'>
+          <p>Budget </p>
+          <span>{bugdet ? `$${bugdet}` : 'N/A'}</span>
+        </div>
+        <div className='movie-row-content'>
+          <p>Revenue </p>
+          <span>{revenue ? `${revenueFormated}`: 'N/A'}</span>
+        </div>
+        <div className='movie-row-content'>
+            <p>Tagline </p>
+            <span>{tagline ? tagline : 'N/A'}</span>
+        </div>
+        <div className='movie-row-content'>
+          <p>Production companies</p>
+            <div className='flex gap-5 '>
+            {production_companies ? production_companies.map((company) => (
+              <div className='flex items-center' key={company.id}>
+                <span className='mr-2'>{company.name}</span>
+              {production_companies?.length > 1 && (
+                  <span>•</span>
+              )}
+              </div>
+            )) : 'N/A'}
+            </div>
         </div>
       </section>
     </div>
