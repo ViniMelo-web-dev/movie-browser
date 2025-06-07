@@ -7,6 +7,8 @@ import Spinner from './Spinner';
 import { getTrendingMovies } from '../scripts/appwrite';
 import TrendingCard from '../components/TrendingCard';
 import { updateSearchCount } from '../scripts/appwrite';
+import { useLocation } from 'react-router-dom';
+
 
 
 const API_BASE_URL = 'https://api.themoviedb.org/3';
@@ -20,6 +22,8 @@ const API_OPTIONS = {
 };
 
 function Home() {
+  const location = useLocation();
+
   const [searchTerm, setSearchTerm] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -27,7 +31,9 @@ function Home() {
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
   const [trendingMovies, setTrendingMovies] = useState([]);
   const [trendingLoading, setTrendingLoading] = useState(false);
-  const [moviePage, setMoviePage] = useState(1);
+  const [moviePage, setMoviePage] = useState(location.state?.moviePage || 1);
+
+
 
 
   useDebounce(() => setDebouncedSearchTerm(searchTerm), 500, [searchTerm])
@@ -53,7 +59,6 @@ function Home() {
       }
 
       setMovieList(data.results || []);
-      
 
       if(query && data.results.length > 0){
         await updateSearchCount(query, data.results[0]);
@@ -81,15 +86,12 @@ function Home() {
 
   useEffect(() => {
     fetchMovies(debouncedSearchTerm);
-  }, [debouncedSearchTerm])
+  }, [debouncedSearchTerm, moviePage])
 
   useEffect(() => {
     loadTrendingMovies();
   }, [])
-
-  useEffect(() => {
-    fetchMovies();
-  }, [moviePage])
+  
 
   return (
     <main>
@@ -122,7 +124,7 @@ function Home() {
           <Spinner></Spinner>
         ): errorMessage ? <p className='text-red-500'>{errorMessage}</p> : (
         <ul className='grid grid-cols-1 gap-5 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
-          {movieList.map((movie) => <Card key={movie.id} movie={movie}></Card>)}
+          {movieList.map((movie) => <Card key={movie.id} movie={movie} moviePage={moviePage}></Card>)}
         </ul>
         )
         }

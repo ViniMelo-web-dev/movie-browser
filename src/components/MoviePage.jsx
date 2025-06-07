@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom'
 import '../styles/movie-page.css'
 import { useNavigate } from 'react-router-dom'
 import Spinner from './Spinner'
@@ -17,9 +17,13 @@ const API_OPTIONS = {
 const MoviePage = () => {
   const navigate = useNavigate();
 
+  const location = useLocation();
+  const moviePage = location.state?.moviePage;
+
   const backToMain = () => {
-    navigate('/');
+    navigate('/', {state: {moviePage: moviePage}});
   }
+
 
   const [movie, setMovie] = useState({});
   const [movieTrailer, setMovieTrailer] = useState({});
@@ -90,7 +94,7 @@ const MoviePage = () => {
   const {
     title, release_date, vote_average, vote_count,
     poster_path, genres, revenue, tagline, production_companies,
-    bugdet, spoken_languages, status,
+    budget, spoken_languages, status,
     production_countries, overview, runtime
   } = movie
 
@@ -223,7 +227,7 @@ const MoviePage = () => {
         </div>
         <div className='movie-row-content'>
           <p>Budget </p>
-          <span>{bugdet ? `$${bugdet}` : 'N/A'}</span>
+          <span>{budget ? `$${budget}` : 'N/A'}</span>
         </div>
         <div className='movie-row-content'>
           <p>Revenue </p>

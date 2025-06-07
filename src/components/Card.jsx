@@ -3,10 +3,10 @@ import { useNavigate } from 'react-router-dom';
 
 
 
-const Card = ({movie: {title, vote_average, original_language, release_date, poster_path, id}}) => {
+const Card = ({movie: {title, vote_average, original_language, release_date, poster_path, id,}, moviePage}) => {
   const navigate = useNavigate();
   const openNewWindow = () => {
-    navigate(`/moviepage/${id}`);
+    navigate(`/moviepage/${id}`, {state: {moviePage: moviePage}});
 }
   return (
     <div className='movie-card relative hovering-dark-bg' onClick={() => openNewWindow(id)}>
