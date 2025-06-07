@@ -119,16 +119,16 @@ const MoviePage = () => {
         <img src='../public/arrow-icon.svg' alt='arrow-icon'></img>
       </div>
 
-      <section className='header flex justify-between'>
+      <section className='header flex justify-between max-md:flex-wrap'>
         <h2 className='mt-0'>{title ? title : 'N/A'}</h2>
-        <div className='bg-[#221F3D] rounded-[4px] p-2'>
+        <div className='bg-[#221F3D] rounded-[4px] p-2 max-h-12 max-md:p-4'>
           <div className='flex items-center'>
-            <img className='mx-1.5' src='../public/star.svg' alt='star-icon'></img>
-            <p className='text-gray-100'>
+            <img className='mx-1.5 max-md:h-3 max-md:mx-0.5' src='../public/star.svg' alt='star-icon'></img>
+            <p className='text-gray-100 max-md:text-sm'>
               <span className='text-white font-bold'>
                 {vote_average ? vote_average.toFixed(1) : 'N/A'}
               </span>/10
-              <span className='mx-1.5'>
+              <span className='mx-1.5 max-md:mx-0'>
                 ({vote_count ? vote_count : 'N/A'})
               </span>
             </p>
@@ -179,7 +179,7 @@ const MoviePage = () => {
       <section className='flex flex-col gap-4'>
         <div className='movie-row-content mt-5 items-center'>
           <p>Genres </p>
-          <ul>
+          <ul className='max-md: flex-wrap'>
             {genres ? genres.map((genre) => (
               <div key={genre.id} className='bg-[#221F3D] rounded-[4px] p-1 px-5'>
                 <span className='text-white font-medium'>{genre.name}</span>
@@ -197,7 +197,7 @@ const MoviePage = () => {
         </div>
         <div className='movie-row-content'>
           <p>Countries </p>
-          <ul>
+          <ul className='flex max-md: truncate'>
             {production_countries ? production_countries.map((country) => (
               <div key={country.name}>
                 <span className='mr-2'>{country.name}</span>
@@ -239,7 +239,7 @@ const MoviePage = () => {
         </div>
         <div className='movie-row-content'>
           <p>Production companies</p>
-            <div className='flex gap-5 '>
+            <div className='flex gap-5 max-md: truncate'>
             {production_companies ? production_companies.map((company) => (
               <div className='flex items-center' key={company.id}>
                 <span className='mr-2'>{company.name}</span>
